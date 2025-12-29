@@ -17,6 +17,7 @@ public class App {
     private List<Customer> users=new ArrayList<>();
     
     public void run() {
+
     	loginMenu();
 //    	loadUsers();
 //    	singIn();
@@ -25,7 +26,8 @@ public class App {
 //    	loadMenu();
 //    	showMenu();
 //    	takeOrder();
-    }
+//    	showCart();
+    }    	
     
     public void loginMenu(){
     	Scanner scanner=new Scanner(System.in);
@@ -171,10 +173,12 @@ public class App {
     	Scanner scanner=new Scanner(System.in);
     	System.out.println("select a number to add to cart(0 to finish)");
     	int choice;
+    	int ıd=0;
 			
     	while(true) {
     	    try {
     	    	CSVWriter cWriter=new CSVWriter(new FileWriter("cart.csv",true));
+
     	    	choice=scanner.nextInt();
     	    	while(choice < 0 || choice >menu.size()) {
     	    		System.out.println("enter a valid number");
@@ -186,9 +190,11 @@ public class App {
     	    	
         	    //cart.add(menu.get(choice-1));
         	    for (MenuItem menu: menu) {
-        	    	if(choice ==menu.id ) {
+        	    	
+        	    	if(choice ==menu.id ) {         
+        	    		ıd+=1;
         	    		String[] cartStrings= {
-        	    				Integer.toString(menu.id),
+        	    				Integer.toString(ıd),
         	    				menu.name,
         	    				Double.toString(menu.price),
         	    				menu.category
@@ -212,7 +218,91 @@ public class App {
 
     		
     	}
+    	showCart();
 
+    }
+    public double showCart() {
+
+    	System.out.println("-----------cart-----------");
+    	double totalPrice=0;
+    	int choice;
+    	Scanner scanner=new Scanner(System.in);
+    	try {
+			CSVReader cReader=new CSVReader(new FileReader("cart.csv"));
+			String[] line;
+			while((line =cReader.readNext())!=null) {
+				int ıd=Integer.parseInt(line[0]);
+				String food=line[1];
+				Double price=Double.parseDouble(line[2]);
+				totalPrice+=price;
+				System.out.println(ıd+" "+food+" "+price);
+
+			}
+			System.out.println("total price: "+totalPrice);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	System.out.println("1-add");
+    	System.out.println("2-delete");
+    	System.out.println("3-pay");
+    	while(true) {
+    		try {
+				choice=scanner.nextInt();
+				while(choice <1 || choice >3 ) {
+					System.out.println("enter a valid number");
+					choice=scanner.nextInt();
+				}
+				break;
+			} catch (Exception e) {
+				System.out.println("enter a number");
+				scanner.next();
+			}
+    	}
+    	switch (choice) {
+		case 1:
+			takeOrder();
+			break;
+
+		case 2:
+			break;
+		case 3:
+			pay(totalPrice);
+			break;
+		}
+    	return totalPrice;
+    	
+    	
+    }
+    public void pay(double total) {
+    	Payment payment;
+    	System.out.println("1-cash\n2-cradit card");
+    	Scanner scanner=new Scanner(System.in);
+    	int choice;
+    	while(true) {
+    		try {
+				choice=scanner.nextInt();
+				while(choice <1 || choice >2) {
+					System.out.println("enter a valid number");
+					choice=scanner.nextInt();
+				}
+				break;
+			} catch (Exception e) {
+				System.out.println("enter a number");
+				scanner.next();
+			}
+    	}
+    	switch (choice) {
+		case 1:
+			payment=new cashPayment();
+			payment.pay(total,this);
+			break;
+		case 2:
+			payment=new creditCardPayment();
+			payment.pay(total,this);
+
+			break;
+		}
+    	
     }
     
     
