@@ -132,7 +132,6 @@ public class App {
     		System.out.println("giriş yapıldı\n");
     		customer.customerMenu(this);
     		
-			
 		}
     	else {
 			System.out.println("username or password is wrong");

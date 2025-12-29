@@ -3,7 +3,6 @@ package com.google.FoodOrder;
 import java.io.FileWriter;
 
 
-
 public class cashPayment implements Payment {
 	@Override
 	public void pay(double amount,App app) {
