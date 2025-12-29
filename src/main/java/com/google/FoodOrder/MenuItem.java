@@ -1,7 +1,5 @@
 package com.google.FoodOrder;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class MenuItem {
 	public String name,category;

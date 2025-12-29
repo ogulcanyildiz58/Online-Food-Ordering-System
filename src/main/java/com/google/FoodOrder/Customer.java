@@ -20,7 +20,7 @@ public class Customer extends User{
 		System.out.println("address: "+getAddress());
 		System.out.println("phone number: "+getPhone());
 		System.out.println("-------------");
-		System.out.println("1-order");
+		System.out.println("1-order");		
 		System.out.println("2-setting menu");
 		while(true) {
 			try {
