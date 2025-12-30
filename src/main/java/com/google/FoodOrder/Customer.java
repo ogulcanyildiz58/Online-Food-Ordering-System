@@ -1,7 +1,15 @@
 package com.google.FoodOrder;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
+
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 
 public class Customer extends User{
 	private String address,phone;
@@ -42,12 +50,14 @@ public class Customer extends User{
 			break;
 
 		case 2:
-			settingsMenu();
+
+			settings(app);
 			break;
 		}
 		
 	}
 	public int settingsMenu() {
+
 		Scanner scanner=new Scanner(System.in);
 		System.out.println("1-change username");
 		System.out.println("2-change password");
@@ -70,10 +80,12 @@ public class Customer extends User{
 		return chose;
 		
 	}
+
 	
-	public void settings() {
+	public void settings(App app) {
 		Scanner scanner=new Scanner(System.in);
 		String change;
+		String oldName=getUserName();
 		switch (settingsMenu()) {
 		case 1:
 			System.out.println("enter new username");
@@ -99,13 +111,44 @@ public class Customer extends User{
 			break;
 			
 		}
+		updateUsers(oldName,app);
+		
 
 	}
-	public void showInfo() {
+	
+	public void updateUsers(String oldName,App app) {
+		try {
+			CSVReader cReader=new CSVReader(new FileReader("users.csv"));
+			List<String[]> users=cReader.readAll();
+			cReader.close();
+			for(String[] line:users) {
+				if (line[0].equals(oldName)) {
+					line[0] = getUserName();
+					line[1] = getPassword();
+	                line[2] = getAddress();
+	                line[3] = getPhone();
+					break;
+					
+				}
+			}
+			CSVWriter cWriter=new CSVWriter(new FileWriter("users.csv"));
+			cWriter.writeAll(users);
+			cWriter.close();
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		showInfo(app);
+		
+	}
+	public void showInfo(App app) {
 		System.out.println("username: "+getUserName());
-		System.out.println("username: "+getPassword());
-		System.out.println("username: "+getAddress());
-		System.out.println("username: "+getPhone());
+		System.out.println("password: "+getPassword());
+		System.out.println("address: "+getAddress());
+		System.out.println("phone: "+getPhone());
+		customerMenu(app);
+
 	}
 
 	public String getAddress() {
