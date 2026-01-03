@@ -27,9 +27,12 @@ public class App {
 //    	showMenu();
 //    	takeOrder();
 //    	showCart();
-    }    	
+    }   
+   
     
-    public void loginMenu(){
+
+
+	public void loginMenu(){
     	Scanner scanner=new Scanner(System.in);
     	int choice;
     	System.out.println("1- sign in");
@@ -220,7 +223,7 @@ public class App {
     	showCart();
 
     }
-    public double showCart() {
+    public void showCart() {
 
     	System.out.println("-----------cart-----------");
     	double totalPrice=0;
@@ -263,15 +266,69 @@ public class App {
 			break;
 
 		case 2:
+			deleteItem();
 			break;
 		case 3:
 			pay(totalPrice);
 			break;
 		}
-    	return totalPrice;
+
     	
     	
     }
+    
+    
+    
+    
+    public void deleteItem() {
+    	List<String[]> cartLines = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        
+
+        try (CSVReader cReader = new CSVReader(new FileReader("cart.csv"))) {
+            cartLines = cReader.readAll();
+        } catch (Exception e) {
+            System.out.println("Sepet okunurken hata oluştu: " + e.getMessage());
+            return;
+        }
+
+        if (cartLines.isEmpty()) {
+            System.out.println("Sepetiniz zaten boş.");
+            return;
+        }
+
+        System.out.println("Silmek istediğiniz ürünün ID numarasını girin:");
+        String targetId = scanner.next();
+        
+        boolean found = false;
+        List<String[]> updatedCart = new ArrayList<>();
+
+
+        for (String[] line : cartLines) {
+            if (line[0].equals(targetId) && !found) {
+                found = true; 
+                System.out.println(line[1] + " sepetten çıkarıldı.");
+                continue; 
+            }
+            updatedCart.add(line);
+        }
+
+        if (!found) {
+            System.out.println("Belirtilen ID bulunamadı.");
+            return;
+        }
+
+
+        try (CSVWriter cWriter = new CSVWriter(new FileWriter("cart.csv"))) {
+            cWriter.writeAll(updatedCart);
+            cWriter.flush();
+        } catch (Exception e) {
+            System.out.println("Sepet güncellenirken hata oluştu.");
+        }
+        showCart();
+    }
+    
+    
     public void pay(double total) {
     	Payment payment;
     	System.out.println("1-cash\n2-cradit card");
@@ -304,5 +361,19 @@ public class App {
     	
     }
     
+    
+    
+    
+   
+    
+        public List<Customer> getUsers() {
+		return users;
+	}
+
+
+	public void setUsers(List<Customer> users) {
+		this.users = users;
+	}
+
     
 }
