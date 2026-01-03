@@ -25,6 +25,7 @@ public class creditCardPayment implements Payment{
 		clearCart(app);
 
 	}
+	
 	public void clearCart(App app) {
 		try {
 			FileWriter fWriter=new FileWriter("cart.csv",false);
@@ -33,6 +34,8 @@ public class creditCardPayment implements Payment{
 			// TODO: handle exception
 		}
 		app.showMenu();
+		app.showCart();
+		app.takeOrder();
 	}
 	
 }

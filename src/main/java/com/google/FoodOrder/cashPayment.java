@@ -16,7 +16,11 @@ public class cashPayment implements Payment {
 		} catch (Exception e) {
 
 		}
+
 		app.showMenu();
+		app.showCart();
+		
+		app.takeOrder();
 		
 	}
 
