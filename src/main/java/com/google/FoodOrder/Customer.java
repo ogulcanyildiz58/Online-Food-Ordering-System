@@ -81,7 +81,6 @@ public class Customer extends User{
 		return chose;
 		
 	}
-
 	
 	public void settings(App app) {
 		Scanner scanner=new Scanner(System.in);
