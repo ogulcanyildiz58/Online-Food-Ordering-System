@@ -59,6 +59,7 @@ public class Customer extends User{
 	public int settingsMenu() {
 
 		Scanner scanner=new Scanner(System.in);
+		System.out.println("0-back");
 		System.out.println("1-change username");
 		System.out.println("2-change password");
 		System.out.println("3-change adress");
@@ -67,7 +68,7 @@ public class Customer extends User{
 		while(true) {
 			try {
 				chose=scanner.nextInt();
-				while(chose < 1 || chose >4) {
+				while(chose < 0 || chose >4) {
 					System.out.println("enter a valid number");
 				}
 				break;
@@ -87,6 +88,9 @@ public class Customer extends User{
 		String change;
 		String oldName=getUserName();
 		switch (settingsMenu()) {
+		case 0:
+			customerMenu(app);
+			break;
 		case 1:
 			System.out.println("enter new username");
 			change=scanner.next();
