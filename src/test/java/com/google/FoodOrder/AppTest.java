@@ -1,38 +1,23 @@
 package com.google.FoodOrder;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
+
+public class AppTest extends TestCase{
+	private App app;
+
+    protected void setUp() {
+        app = new App();
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+    public void testSetAndGetUsers() {
+        List<Customer> testUsers = new ArrayList<Customer>();
+        testUsers.add(new Customer("ali", "111", "ist", "123"));
+        
+        app.setUsers(testUsers);
+        assertEquals(1, app.getUsers().size());
+        assertEquals("ali", app.getUsers().get(0).getUserName());
     }
 }
