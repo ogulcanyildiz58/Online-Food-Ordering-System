@@ -116,7 +116,6 @@ public class Customer extends User{
 			
 		}
 		updateUsers(oldName,app);
-	
 
 	}
 	
